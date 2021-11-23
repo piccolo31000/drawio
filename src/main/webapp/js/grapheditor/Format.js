@@ -945,6 +945,9 @@ BaseFormatPanel.prototype.createColorOption = function(label, getColorFn, setCol
 	div.style.overflow = 'hidden';
 	div.style.width = '200px';
 	div.style.height = '18px';
+
+	labelLowerAndDash = label.replace(/\s+/g, '-').toLowerCase();
+	div.className = 'BaseFormatPanel-colorOption-' + labelLowerAndDash;
 	
 	var cb = document.createElement('input');
 	cb.setAttribute('type', 'checkbox');
@@ -1907,7 +1910,9 @@ ArrangePanel.prototype.addAlign = function(div)
 	stylePanel.style.paddingBottom = '2px';
 	stylePanel.style.borderWidth = '0px';
 	stylePanel.style.width = '220px';
-	stylePanel.className = 'geToolbarContainer';
+
+	// SUS: Centreon add ArrangePanel-addAlign to stylePanel.className
+	stylePanel.className = 'geToolbarContainer ArrangePanel-addAlign';
 
 	if (ss.vertices.length > 1)
 	{
@@ -2891,13 +2896,13 @@ TextFormatPanel.prototype.addFont = function(container)
 	title.style.paddingBottom = '6px';
 	container.appendChild(title);
 
-	var stylePanel = this.createPanel('TextFormatPanel-addFont-stylePanel');
+	var stylePanel = this.createPanel('');
 	stylePanel.style.paddingTop = '2px';
 	stylePanel.style.paddingBottom = '2px';
 	stylePanel.style.position = 'relative';
 	stylePanel.style.marginLeft = '-2px';
 	stylePanel.style.borderWidth = '0px';
-	stylePanel.className = 'geToolbarContainer';
+	stylePanel.className = 'geToolbarContainer TextFormatPanel-addFont-stylePanel';
 	
 	if (graph.cellEditor.isContentEditing())
 	{
@@ -3114,7 +3119,8 @@ TextFormatPanel.prototype.addFont = function(container)
 	stylePanel4.style.paddingTop = '8px';
 	stylePanel4.style.paddingBottom = '4px';
 	stylePanel4.style.fontWeight = 'normal';
-	
+	stylePanel4.className = 'TextFormatPanel-LabelPosition';
+
 	mxUtils.write(stylePanel4, mxResources.get('position'));
 	
 	// Adds label position options
@@ -3125,6 +3131,7 @@ TextFormatPanel.prototype.addFont = function(container)
 	positionSelect.style.border = '1px solid rgb(160, 160, 160)';
 	positionSelect.style.borderRadius = '4px';
 	positionSelect.style.marginTop = '-2px';
+	positionSelect.className = 'TextFormatPanel-positionSelect';
 	
 	var directions = ['topLeft', 'top', 'topRight', 'left', 'center', 'right', 'bottomLeft', 'bottom', 'bottomRight'];
 	var lset = {'topLeft': [mxConstants.ALIGN_LEFT, mxConstants.ALIGN_TOP, mxConstants.ALIGN_RIGHT, mxConstants.ALIGN_BOTTOM],
@@ -3153,6 +3160,7 @@ TextFormatPanel.prototype.addFont = function(container)
 	stylePanel5.style.paddingTop = '4px';
 	stylePanel5.style.paddingBottom = '4px';
 	stylePanel5.style.fontWeight = 'normal';
+	stylePanel5.className = 'TextFormatPanel-writingDirection';
 
 	mxUtils.write(stylePanel5, mxResources.get('writingDirection'));
 	
@@ -4667,6 +4675,8 @@ StyleFormatPanel.prototype.addFill = function(container)
 	}, graph.getDefaultColor(ss.style, mxConstants.STYLE_GRADIENTCOLOR,
 		graph.shapeForegroundColor, graph.shapeBackgroundColor));
 
+	gradientPanel.className = 'FormatPanel-gradientPanel';
+
 	var fillKey = (ss.style.shape == 'image') ? mxConstants.STYLE_IMAGE_BACKGROUND : mxConstants.STYLE_FILLCOLOR;
 
 	var fillPanel = this.createCellColorOption(mxResources.get('fill'),
@@ -4803,7 +4813,7 @@ StyleFormatPanel.prototype.addFill = function(container)
 			'values', [fillStyleSelect.value], 'cells', ss.cells));
 		mxEvent.consume(evt);
 	});
-	
+
 	container.appendChild(fillPanel);
 	container.appendChild(gradientPanel);
 	
@@ -4940,7 +4950,7 @@ StyleFormatPanel.prototype.addStroke = function(container)
 	stylePanel.style.overflow = 'hidden';
 	stylePanel.style.marginTop = '2px';
 	stylePanel.style.width = '220px';
-	stylePanel.className = 'geToolbarContainer';
+	stylePanel.className = 'geToolbarContainer StyleFormatPanel-addStroke';
 
 	var addItem = mxUtils.bind(this, function(menu, width, cssName, keys, values)
 	{
@@ -5320,6 +5330,7 @@ StyleFormatPanel.prototype.addStroke = function(container)
 	perimeterPanel.style.marginTop = '6px';
 	perimeterPanel.style.borderWidth = '0px';
 	perimeterPanel.style.paddingBottom = '18px';
+	perimeterPanel.className = 'FormatPanel-perimeterPanel';
 	
 	var span = document.createElement('div');
 	span.style.position = 'absolute';
