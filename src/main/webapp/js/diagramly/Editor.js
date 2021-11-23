@@ -4548,7 +4548,7 @@
 			if (this.defaultColorSchemes != null && sstate.style.shape != 'image' &&
 				!sstate.containsLabel && sstate.cells.length > 0)
 			{
-				this.container.appendChild(this.addStyles(this.createPanel()));
+				this.container.appendChild(this.addStyles(this.createPanel('StyleFormatPanel-addStyles')));
 			}
 			
 			styleFormatPanelInit.apply(this, arguments);
@@ -4571,7 +4571,7 @@
 
 				if (Object.getOwnPropertyNames != null && Object.getOwnPropertyNames(properties).length > 0)
 				{
-					this.container.appendChild(this.addProperties(this.createPanel(), properties, sstate));
+					this.container.appendChild(this.addProperties(this.createPanel('StyleFormatPanel-addProperties'), properties, sstate));
 				}
 			}
 		};
