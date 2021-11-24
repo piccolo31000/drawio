@@ -1462,27 +1462,37 @@ Menus.prototype.addMenuItems = function(menu, keys, parent, trigger, sprites)
 
 /**
  * Creates the keyboard event handler for the current graph and history.
+ * Changed By Centreon : add Centreon Manipulation to shapes Menu
  */
 Menus.prototype.createPopupMenu = function(menu, cell, evt)
 {
 	menu.smartSeparators = true;
 	
-	this.addPopupMenuHistoryItems(menu, cell, evt);
-	this.addPopupMenuEditItems(menu, cell, evt);
+	// this.addPopupMenuHistoryItems(menu, cell, evt);
+	// this.addPopupMenuEditItems(menu, cell, evt);
 
 	
-	if (this.isShowStyleItems())
-	{
-		this.addPopupMenuStyleItems(menu, cell, evt);
-	}
+	// if (this.isShowStyleItems())
+	// {
+	// 	this.addPopupMenuStyleItems(menu, cell, evt);
+	// }
 
-	if (this.isShowArrangeItems())
-	{
-		this.addPopupMenuArrangeItems(menu, cell, evt);
-	}
+	// if (this.isShowArrangeItems())
+	// {
+	// 	this.addPopupMenuArrangeItems(menu, cell, evt);
+	// }
 
-	this.addPopupMenuCellItems(menu, cell, evt);
-	this.addPopupMenuSelectionItems(menu, cell, evt);
+	// this.addPopupMenuCellItems(menu, cell, evt);
+	// this.addPopupMenuSelectionItems(menu, cell, evt);
+
+	if (!this.editorUi.editor.graph.isSelectionEmpty()) {
+		const contextualMenuCellType = ['LINK','MEDIA', 'RESOURCE', 'WIDGET']
+		const typeCell = cell.getAttribute('type');
+
+		if (contextualMenuCellType.includes(typeCell)) {
+			this.addMenuItems(menu, ['editData'], null, evt);
+		}
+	}
 };
 
 /**
