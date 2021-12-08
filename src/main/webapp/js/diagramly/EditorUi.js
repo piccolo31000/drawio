@@ -15052,7 +15052,7 @@
 								cellStyle = cellStyle.replace(search, `${key}=${value};`);
 							}
 						}
-						cell.setStyle(cellStyle);
+						graph.getModel().setStyle(cell, cellStyle);
 						return;
 					}
 					else if (data.action === 'setDataProperties') {
