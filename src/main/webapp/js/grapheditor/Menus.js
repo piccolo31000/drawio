@@ -1477,10 +1477,10 @@ Menus.prototype.createPopupMenu = function(menu, cell, evt)
 	// 	this.addPopupMenuStyleItems(menu, cell, evt);
 	// }
 
-	// if (this.isShowArrangeItems())
-	// {
-	// 	this.addPopupMenuArrangeItems(menu, cell, evt);
-	// }
+	if (this.isShowArrangeItems())
+	{
+		this.addPopupMenuArrangeItems(menu, cell, evt);
+	}
 
 	// this.addPopupMenuCellItems(menu, cell, evt);
 	// this.addPopupMenuSelectionItems(menu, cell, evt);
