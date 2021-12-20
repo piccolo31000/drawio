@@ -1979,6 +1979,9 @@ Actions.prototype.get = function(name)
  */
 function Action(label, funct, enabled, iconCls, shortcut)
 {
+	// - CENTREON - Disable shortcuts
+	shortcut = '';
+
 	mxEventSource.call(this);
 	this.label = label;
 	this.funct = this.createFunction(funct);

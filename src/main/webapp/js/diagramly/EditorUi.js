@@ -10773,6 +10773,8 @@
 		
 		mxEvent.addListener(textInput, 'copy', mxUtils.bind(this, function(evt)
 		{
+			return;
+
 			if (graph.isEnabled())
 			{
 				try
@@ -10790,6 +10792,8 @@
 		
 		mxEvent.addListener(textInput, 'cut', mxUtils.bind(this, function(evt)
 		{
+			return;
+
 			if (graph.isEnabled())
 			{
 				try
@@ -10807,6 +10811,8 @@
 		
 		mxEvent.addListener(textInput, 'paste', mxUtils.bind(this, function(evt)
 		{
+			return;
+
 			if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))
 			{
 				textInput.innerHTML = '&nbsp;';
