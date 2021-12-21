@@ -6141,6 +6141,10 @@ HoverIcons.prototype.getState = function(state)
  */
 HoverIcons.prototype.update = function(state, x, y)
 {
+	// This Function is blocked by Centreon
+	censole.log('HoverIcons.prototype.update Is Blocked');
+	return;
+
 	if (!this.graph.connectionArrowsEnabled ||
 		(this.graph.freehand != null && this.graph.freehand.isDrawing()) ||
 		(state != null && mxUtils.getValue(state.style, 'allowArrows', '1') == '0'))
