@@ -10773,8 +10773,6 @@
 		
 		mxEvent.addListener(textInput, 'copy', mxUtils.bind(this, function(evt)
 		{
-			return;
-
 			if (graph.isEnabled())
 			{
 				try
@@ -10792,8 +10790,6 @@
 		
 		mxEvent.addListener(textInput, 'cut', mxUtils.bind(this, function(evt)
 		{
-			return;
-
 			if (graph.isEnabled())
 			{
 				try
@@ -10811,8 +10807,6 @@
 		
 		mxEvent.addListener(textInput, 'paste', mxUtils.bind(this, function(evt)
 		{
-			return;
-
 			if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))
 			{
 				textInput.innerHTML = '&nbsp;';
@@ -13316,6 +13310,11 @@
 						mxUtils.trim(decodeURIComponent(spans[0].textContent)) :
 						decodeURIComponent(xml);
 							
+					if(tmp)
+					{
+						tmp = tmp.replace(/modelId="\d+"/g, 'modelId=""')
+					}
+					
 					if (tmp && (this.isCompatibleString(tmp) || 
 						tmp.substring(0, 20).replace(/\s/g, '').indexOf('{"isProtected":') == 0))
 					{

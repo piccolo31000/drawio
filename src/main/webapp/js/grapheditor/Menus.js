@@ -1469,7 +1469,7 @@ Menus.prototype.createPopupMenu = function(menu, cell, evt)
 	menu.smartSeparators = true;
 	
 	// this.addPopupMenuHistoryItems(menu, cell, evt);
-	// this.addPopupMenuEditItems(menu, cell, evt);
+	this.addPopupMenuEditItems(menu, cell, evt);
 
 	
 	// if (this.isShowStyleItems())
