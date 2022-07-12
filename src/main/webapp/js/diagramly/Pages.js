@@ -58,6 +58,16 @@ DiagramPage.prototype.getName = function()
 	return this.node.getAttribute('name');
 };
 
+DiagramPage.prototype.getViewId = function()
+{
+	return this.node.getAttribute('viewId');
+};
+
+DiagramPage.prototype.getSaved = function()
+{
+	return this.node.getAttribute('saved');
+};
+
 /**
  * 
  */
@@ -70,6 +80,30 @@ DiagramPage.prototype.setName = function(value)
 	else
 	{
 		this.node.setAttribute('name', value);
+	}
+};
+
+DiagramPage.prototype.setSaved = function(value)
+{
+	if (value == null)
+	{
+		this.node.removeAttribute('saved');
+	}
+	else
+	{
+		this.node.setAttribute('saved', value);
+	}
+};
+
+DiagramPage.prototype.setViewId = function(value)
+{
+	if (value == null)
+	{
+		this.node.removeAttribute('name');
+	}
+	else
+	{
+		this.node.setAttribute('viewId', value);
 	}
 };
 
@@ -194,7 +228,6 @@ SelectPage.prototype.execute = function()
 		page = this.ui.currentPage;
 	
 		// Switches the root cell and sets the view state
-		graph.model.prefix = Editor.guid() + '-';
 		graph.model.rootChanged(page.root);
 		graph.setViewState(page.viewState);
 
@@ -1036,7 +1069,7 @@ EditorUi.prototype.createPageId = function()
 	{
 		id = Editor.guid();
 	} while (this.getPageById(id) != null)
-	
+
 	return id;
 };
 
@@ -1088,6 +1121,11 @@ EditorUi.prototype.createPageName = function()
  */
 EditorUi.prototype.removePage = function(page)
 {
+	if (this.pages.length <= 1)
+	{
+		this.showError(mxResources.get('warning'), 'Sorry you can\'t delete The last Tab', mxResources.get('ok'))
+		return;
+	}
 	try
 	{
 		var graph = this.editor.graph;
@@ -1117,14 +1155,6 @@ EditorUi.prototype.removePage = function(page)
 					}
 					
 					next = this.pages[tmp];
-				}
-				else if (this.pages.length <= 1)
-				{
-					// Removes label with incorrect page number to force
-					// default page name which is OK for a single page
-					next = this.insertPage();
-					graph.model.execute(new RenamePage(this, next,
-						mxResources.get('pageWithNumber', [1])));
 				}
 				
 				// Uses model to fire event to trigger autosave
@@ -1398,28 +1428,10 @@ EditorUi.prototype.updateTabContainer = function()
 		
 		this.tabContainer.innerText = '';
 		this.tabContainer.appendChild(wrapper);
-		
-		// Adds floating menu with all pages and insert option
-		var menutab = this.createPageMenuTab();
-		this.tabContainer.appendChild(menutab);
-		var insertTab = null;
-		
-		// Not chromeless and not read-only file
-		if (this.isPageInsertTabVisible())
-		{
-			insertTab = this.createPageInsertTab();
-			this.tabContainer.appendChild(insertTab);
-		}
 
 		if (wrapper.clientWidth > this.tabContainer.clientWidth - btnWidth)
 		{
-			if (insertTab != null)
-			{
-				insertTab.style.position = 'absolute';
-				insertTab.style.right = '0px';
-				wrapper.style.marginRight = '30px';
-			}
-			
+
 			var temp = this.createControlTab(4, '&nbsp;&#10094;&nbsp;');
 			temp.style.position = 'absolute';
 			temp.style.right = (this.editor.chromeless) ? '29px' : '55px';
@@ -1599,14 +1611,6 @@ EditorUi.prototype.createPageMenuTab = function(hoverEnabled, invert)
 				}
 			});
 
-			var addInsert = mxUtils.bind(this, function()
-			{
-				menu.addItem(mxResources.get('insertPage'), null, mxUtils.bind(this, function()
-				{
-					this.insertPage();
-				}), parent);
-			});
-
 			if (!invert)
 			{
 				addPages();
@@ -1614,11 +1618,6 @@ EditorUi.prototype.createPageMenuTab = function(hoverEnabled, invert)
 			
 			if (this.editor.graph.isEnabled())
 			{
-				if (!invert)
-				{
-					menu.addSeparator(parent);
-					addInsert();
-				}
 
 				var page = this.currentPage;
 				
@@ -1674,8 +1673,6 @@ EditorUi.prototype.createPageMenuTab = function(hoverEnabled, invert)
 
 			if (invert)
 			{
-				menu.addSeparator(parent);
-				addInsert();
 				menu.addSeparator(parent);
 				addPages();
 			}
@@ -1762,12 +1759,6 @@ EditorUi.prototype.addTabListeners = function(page, tab)
 	mxEvent.disableContextMenu(tab);
 	var graph = this.editor.graph;
 	var model = graph.model;
-
-	mxEvent.addListener(tab, 'dblclick', mxUtils.bind(this, function(evt)
-	{
-		this.renamePage(page)
-		mxEvent.consume(evt);
-	}));
 	
 	var menuWasVisible = false;
 	var pageWasActive = false;
@@ -1856,57 +1847,22 @@ EditorUi.prototype.getLinkForPage = function(page, params, lightbox)
  */
 EditorUi.prototype.createPageMenu = function(page, label)
 {
+	// Centreon: makeSure
 	return mxUtils.bind(this, function(menu, parent)
 	{
-		if (this.currentPage == page && this.pages.length > 1)
-		{
-			this.menus.addSubmenu('movePage', menu, parent, mxResources.get('move'));
-			menu.addSeparator(parent);
-		}
-
-		menu.addItem(mxResources.get('insert'), null, mxUtils.bind(this, function()
-		{
-			this.insertPage(null, mxUtils.indexOf(this.pages, page) + 1);
-		}), parent);
-	
 		menu.addItem(mxResources.get('delete'), null, mxUtils.bind(this, function()
 		{
 			this.removePage(page);
 		}), parent);
-		
-		menu.addItem(mxResources.get('rename') + '...', null, mxUtils.bind(this, function()
-		{
-			this.renamePage(page, label);
-		}), parent);
-		
-		var url = this.getLinkForPage(page);
 
-		if (url != null)
+		menu.addItem('delete Others', null, mxUtils.bind(this, function()
 		{
-			menu.addSeparator(parent);
-			
-			menu.addItem(mxResources.get('link') + '...', null, mxUtils.bind(this, function()
-			{
-				this.showPageLinkDialog(page);
-			}));
-		}
-		
-		menu.addSeparator(parent);
-		
-		menu.addItem(mxResources.get('duplicate'), null, mxUtils.bind(this, function()
-		{
-			this.duplicatePage(page, mxResources.get('copyOf', [page.getName()]));
+			const currentPageViewId = this.currentPage.getViewId();
+			const pagesToDelete = this.pages.filter((page) => page.getViewId() !== currentPageViewId);
+			pagesToDelete.forEach(page => {
+				this.removePage(page);
+			});
 		}), parent);
-		
-		if (!mxClient.IS_CHROMEAPP && !EditorUi.isElectronApp && this.getServiceName() == 'draw.io')
-		{		
-			menu.addSeparator(parent);
-			
-			menu.addItem(mxResources.get('openInNewWindow'), null, mxUtils.bind(this, function()
-			{
-				this.editor.editAsNew(this.getFileData(true, null, null, null, true, true));
-			}), parent);
-		}
 	});
 };
 
