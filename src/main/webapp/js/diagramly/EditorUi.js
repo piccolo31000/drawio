@@ -1860,6 +1860,7 @@
 						}
 					}
 					
+					this.pages.forEach((page) => page.setSaved(true))
 					this.currentPage = (selectedPage != null) ? selectedPage :
 						this.pages[Math.max(0, Math.min(this.pages.length - 1, urlParams['page'] || 0))];
 					node = this.currentPage.node;
@@ -15049,7 +15050,7 @@
 							data = data.xml;
 						}					
 					} 
-					else if(data.action == 'testingLoad')
+					else if(data.action == 'reloadAllTheTabs')
 					{
 						var node = (data.xml != null && data.xml.length > 0) ? mxUtils.parseXml(data.xml).documentElement : null;
 						var cause = Editor.extractParserError(node, mxResources.get('invalidOrMissingFile'));
@@ -15064,7 +15065,6 @@
 					}
 					else if (data.action == 'loadFromContainer')
 					{
-
 						var node = (data.xml != null && data.xml.length > 0) ? mxUtils.parseXml(data.xml).documentElement : null;
 						var cause = Editor.extractParserError(node, mxResources.get('invalidOrMissingFile'));
 						if (!cause)
@@ -15084,7 +15084,6 @@
 							mxUtils.setTextContent(page.node, Graph.compressNode(temp));
 
 							this.insertPage(page);
-
 						}
 
 						return;
@@ -18613,6 +18612,7 @@ var ConfirmDialog = function(editorUi, message, okFn, cancelFn, okLabel, cancelL
 		}
 	});
 	cancelBtn.className = 'geBtn';
+	cancelBtn.style.marginRight = '7px';
 	
 	if (cancelImg != null)
 	{
@@ -18638,6 +18638,7 @@ var ConfirmDialog = function(editorUi, message, okFn, cancelFn, okLabel, cancelL
 		}
 	});
 	btns.appendChild(okBtn);
+	okBtn.style.marginLeft = '15px';
 	
 	if (okImg != null)
 	{

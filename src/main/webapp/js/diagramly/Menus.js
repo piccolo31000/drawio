@@ -2581,8 +2581,10 @@
 					{
 						editorUi.actions.get('save').funct(true);
 					}
-					
-					if (!editorUi.editor.modified)
+
+					const countOFUnsavedPage = editorUi.pages.filter((page) => page.getSaved() === 'false').length;
+
+					if (countOFUnsavedPage === 0)
 					{
 						discardChangesFn();
 					}
