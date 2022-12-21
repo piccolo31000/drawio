@@ -8,6 +8,7 @@ div.geFormatSection-DiagramFormatPanel-addOptions,
 div.geFormatSection-DiagramFormatPanel-addPaperSize {
   display: none;
 }
+
 div.geFormatSection-DiagramStylePanel-addView {
   display: none;
 }
@@ -31,14 +32,7 @@ div.FormatPanel-perimeterPanel {
   display: none;
 }
 
-div.TextFormatPanel-addFont-stylePanel, 
-div.TextFormatPanel-LabelPosition,
-div.TextFormatPanel-writingDirection {
-  display: none;
-}
-div.geFormatSection-TextFormatPanel-addFont-extraPanel,
-div.geFormatSection-BaseFormatPanel-createRelativeOption-lineheight,
-div.geFormatSection-TextFormatPanel-addFont-spacingPanel {
+div.TextFormatPanel-addFont-stylePanel-ContentEditing {
   display: none;
 }
 
