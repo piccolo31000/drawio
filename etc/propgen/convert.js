@@ -112,27 +112,51 @@ async function main()
         }
 
         const termsToTranslate = {
-            createMapFromContainer: {
-              en: 'Create Map From Container',
-              fr: "Créer une carte à partir d'un conteneur",
-            },
-            editContent: {
-              en: 'Edit content',
-              fr: "Modifier le contenu",
-            },
-            proceed: {
-              en: 'Proceed',
-              fr: "Continuer",
-            },
-            proceedMessage: {
-                en: String.raw`You have unsaved changes.\nIf you proceed, all changes will be lost`,
-                fr: String.raw`Vous avez des changements non enregistrés.\nSi vous continuez, toutes les modifications seront perdues.`,
-            },
-            editCentreonStyle: {
-              en: 'Edit Centreon Style',
-              fr: "Modifier le style Centreon",
-            }
-          };
+          alreadyOpen: {
+            en: 'The tab for this container is already open!',
+            fr: "L'onglet pour ce conteneur est déjà ouvert !",
+          },
+          closeOthers: {
+            en: 'Close others',
+            fr: 'Fermer les autres onglets',
+          },
+          createMapFromContainer: {
+            en: 'Create map from container',
+            fr: "Créer une carte à partir d'un conteneur",
+          },
+          editCentreonStyle: {
+            en: 'Edit Centreon style',
+            fr: 'Modifier le style Centreon',
+          },
+          editContainerDataToOpen: {
+            en: 'To be able to edit the container, name it and then save the view.',
+            fr: 'Pour pouvoir modifier le conteneur, nommez-le et enregistrez la vue.',
+          },
+          editContent: {
+            en: 'Edit content',
+            fr: 'Modifier le contenu',
+          },
+          editToSeeContainer: {
+            en: 'Please edit container data to see the content of the container.',
+            fr: 'Veuillez modifier les données du conteneur pour voir le contenu du conteneur.',
+          },
+          proceed: {
+            en: 'Proceed',
+            fr: 'Continuer',
+          },
+          proceedMessage: {
+            en: `You have unsaved changes.\nIf you proceed, all changes will be lost.`,
+            fr: `Vous avez des changements non enregistrés.\nSi vous continuez, toutes les modifications seront perdues.`,
+          },
+          saveToSeeContainer: {
+            en: 'To be able to see the content of the container, save it.',
+            fr: 'Pour pouvoir voir le contenu du conteneur, sauvegardez-le.',
+          },
+          canNotDeleteContainer: {
+            en: "You are not allowed to close the last tab.",
+            fr: 'Vous ne pouvez pas fermer le dernier onglet.',
+          },
+        };
       
           const indexI18 = codes.indexOf('i18n');
           const indexFr = codes.indexOf('fr');
