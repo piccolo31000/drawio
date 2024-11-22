@@ -1,5 +1,5 @@
 /**
- * Explore plugin.
+ * Explore plugin. 2
  */
 Draw.loadPlugin(function(editorUi)
 {
